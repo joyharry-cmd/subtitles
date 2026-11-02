@@ -1,0 +1,5 @@
+__pycache__/
+movies/*/input.*
+movies/*/sample*.webvtt
+*.har
+.env
