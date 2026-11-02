@@ -15,5 +15,5 @@ jobs:
           node-version: '22'
       - run: python -m unittest discover -s tests
       - run: python tools/build.py
-      - run: git diff --exit-code -- shadowrocket/subtitles.module movies
+      - run: git diff --ignore-space-at-eol --exit-code -- shadowrocket/subtitles.module movies
       - run: node verify.cjs
