@@ -1,0 +1,17 @@
+{
+  "id": "interstellar-itunes",
+  "name": "Interstellar (2014) iTunes",
+  "legacy": true,
+  "enabled": true,
+  "resource": "P1220541004_A960891136",
+  "language": "fr-FR",
+  "hosts": [
+    "vod-ap-amt.tv.apple.com",
+    "vod-fa-amt.tv.apple.com",
+    "vod-ak-amt.tv.apple.com"
+  ],
+  "rule": "AppleTV.Movie.Interstellar.zh-Hans.French.response = type=http-response,engine=webview,pattern=^https:\\/\\/vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com\\/itunes-assets\\/(?:[^\\/]+\\/)+P1220541004_A960891136_fr-FR_subtitles_V2-\\d+\\.webvtt(?:\\?.*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/rexchen1803/apple-video-subtitles/9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb/payloads/shadowrocket/movies/2014-interstellar/serve_interstellar_fr_as_zh_hans.js",
+  "publish_authorized": false,
+  "rights_evidence": "External upstream reference only; subtitle payload not copied",
+  "source": "https://github.com/rexchen1803/apple-video-subtitles"
+}
