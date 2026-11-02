@@ -1,0 +1,22 @@
+{
+  "id": "my-movie",
+  "name": "电影名称",
+  "enabled": true,
+  "publish_authorized": false,
+  "rights_evidence": "",
+  "resource": "P123_A456",
+  "language": "fr-FR",
+  "hosts": [
+    "vod-ap-amt.tv.apple.com"
+  ],
+  "path_prefix": "/itunes-assets/EXACT-PATH/",
+  "subtitle": "input.srt",
+  "playlist": "playlist.m3u8",
+  "samples": [
+    "sample-start.webvtt",
+    "sample-middle.webvtt",
+    "sample-end.webvtt"
+  ],
+  "playlist_origin_local_ms": 0,
+  "offset_ms": 0
+}
