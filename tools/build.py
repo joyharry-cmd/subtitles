@@ -17,16 +17,17 @@ def cues(text):
  if not result or result!=sorted(result,key=lambda x:x[0]):raise ValueError('Empty/unsorted subtitles')
  return result
 def playlist(text,resource,language):
- out=[];duration=None;cursor=0
+ out=[];duration=None;cursor=0;discontinuous=False;ended=False
  if '#EXTM3U' not in text:raise ValueError('Not an HLS playlist')
  for line in text.splitlines():
   line=line.strip()
-  if line.startswith('#EXT-X-DISCONTINUITY'):raise ValueError('Discontinuity requires a separate mapping; remove only trailing empty discontinuity during sanitization')
+  if line=='#EXT-X-DISCONTINUITY':discontinuous=True
   if line.startswith('#EXTINF:'):duration=round(float(line.split(':')[1].split(',')[0])*1000)
   elif line and not line.startswith('#'):
    if duration is None or duration<=0:raise ValueError('Missing/invalid EXTINF')
    if '/' in line or '?' in line or '#' in line:raise ValueError('Use sanitized relative filenames without credentials')
-   if line=='empty.webvtt':duration=None;continue
+   if line=='empty.webvtt':duration=None;ended=True;continue
+   if discontinuous or ended:raise ValueError('Nonterminal discontinuity/empty requires separate mapping')
    if not re.fullmatch(re.escape(resource+'_'+language+'_subtitles_V2-')+r'\d+\.webvtt',line):raise ValueError('Unexpected resource/language')
    if any(x[0]==line for x in out):raise ValueError('Duplicate segment')
    out.append((line,cursor,cursor+duration));cursor+=duration;duration=None
