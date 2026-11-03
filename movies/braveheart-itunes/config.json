@@ -1,0 +1,14 @@
+{
+  "id": "braveheart-itunes",
+  "name": "Braveheart (1995) iTunes",
+  "legacy": true,
+  "enabled": true,
+  "resource": "P527204996_A270007336",
+  "language": "fr-FR",
+  "hosts": [
+    "vod-ap-amt.tv.apple.com"
+  ],
+  "rule": "Braveheart.iTunes.zh-Hans = type=http-response,engine=webview,pattern=^https:\\/\\/vod-ap-amt\\.tv\\.apple\\.com\\/itunes-assets\\/HLSVideo122\\/v4\\/fb\\/64\\/e0\\/fb64e076-5fae-5bc4-bf69-b6df7cc12605\\/P527204996_A270007336_fr-FR_subtitles-(0|[1-9][0-9]?|10[0-9]|11[0-9]|12[01])\\.webvtt(?:\\?[^#]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/28122d35150803830d88b47d067ce03eb80923a2/movies/braveheart-itunes/braveheart-zh.js",
+  "publish_authorized": true,
+  "rights_evidence": "User confirmed public redistribution authorization before publishing the test script."
+}
