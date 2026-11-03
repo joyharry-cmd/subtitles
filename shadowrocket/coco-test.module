@@ -1,0 +1,7 @@
+#!name=Coco iTunes 简体中文测试
+
+[Script]
+Coco.ZH = type=http-response,engine=webview,pattern=^https:\/\/vod-(?:ap|fa|ak)-amt\.tv\.apple\.com\/itunes-assets\/(?:[^\/?#]+\/)*P1362880914_A1307301491_es-419_subtitles_V2-(0|[1-9]|[1-8][0-9]|9[0-4])\.webvtt(?:\?[^#]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/main/movies/coco-itunes/coco.js
+
+[MITM]
+hostname = %APPEND% vod-ap-amt.tv.apple.com, vod-fa-amt.tv.apple.com, vod-ak-amt.tv.apple.com
