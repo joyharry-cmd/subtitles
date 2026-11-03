@@ -1,0 +1,6 @@
+#!name=Coco HLS 清单诊断
+#!desc=仅记录 HLS 标签计数
+[Script]
+Coco.HLS.Probe = type=http-response,engine=webview,pattern=^https:\/\/(?:play(?:-edge)?(?:-cdn)?\.itunes\.apple\.com|vod-(?:ap|fa|ak)-(?:amt|aoc)\.tv\.apple\.com)\/[^?#]+\.m3u8(?:\?[^#]*)?$,requires-body=1,max-size=2097152,timeout=15,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/3a19bd9ab26ba840478c4b3fb9e8094bdc2a640b/diagnostics/hls-probe.js
+[MITM]
+hostname = %APPEND% play.itunes.apple.com, play-edge.itunes.apple.com, play-cdn.itunes.apple.com, play-edge-cdn.itunes.apple.com, vod-ap-amt.tv.apple.com, vod-fa-amt.tv.apple.com, vod-ak-amt.tv.apple.com, vod-ap-aoc.tv.apple.com, vod-fa-aoc.tv.apple.com, vod-ak-aoc.tv.apple.com
