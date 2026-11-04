@@ -1,0 +1,7 @@
+#!name=Coco UTS Read-only Diagnostic
+#!desc=Coco detail JSON only; local redacted metadata; no response changes.
+# Keep stable subtitle replacement enabled. Disable other diagnostic modules.
+[Script]
+Coco.UTS.Readonly = type=http-response,engine=webview,pattern=^https:\/\/uts-api\.itunes\.apple\.com\/uts\/v3\/movies\/umc\.cmc\.5y1554je00oslx5xtkxv9uk7s(?:\?[^#]*)?$,requires-body=1,max-size=2097152,timeout=15,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/8516c37289a6471559a63bd4d5409325a82656df/diagnostics/coco-uts-readonly.js
+[MITM]
+hostname = %APPEND% uts-api.itunes.apple.com
