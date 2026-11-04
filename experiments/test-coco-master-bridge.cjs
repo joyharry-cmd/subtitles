@@ -1,0 +1,14 @@
+const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
+const code=fs.readFileSync(__dirname+'/coco-master-bridge.js','utf8'),store={},src='https://play-edge.itunes.apple.com/WebObjects/MZPlayLocal.woa/hls/playlist.m3u8?a=1307301491&id=1362880914&token=SYNTHETIC',uts='https://uts-api.itunes.apple.com/uts/v3/movies/umc.cmc.5y1554je00oslx5xtkxv9uk7s';let tests=0;
+function run(url,body,reply){let result,logs=[],calls=0,timer;vm.runInNewContext(code,{$request:{url,headers:{Cookie:'SECRET',Authorization:'SECRET'}},$response:{body},$persistentStore:{read:k=>store[k],write:(v,k)=>(store[k]=v,true)},console:{log:s=>logs.push(s)},setTimeout:f=>(timer=f,1),clearTimeout:()=>{},$done:o=>{assert.equal(result,undefined);result=o},$httpClient:{get:(o,cb)=>{calls++;assert(!JSON.stringify(o.headers).includes('SECRET'));if(reply==='timeout')timer();else cb(...reply);}}});assert(!logs.join('').includes('SYNTHETIC'));assert(!logs.join('').includes('SECRET'));return {result,logs,calls};}
+function test(n,f){f();tests++;console.log('PASS '+n);}
+const fixture='#EXTM3U\r\n#EXT-X-SESSION-KEY:METHOD=SAMPLE-AES,URI="skd://synthetic"\r\n#EXT-X-CONTENT-STEERING:SERVER-URI="https://example.invalid/steer"\r\n'+['ap','fa','ak'].map(p=>'#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="s-'+p+'",LANGUAGE="es-419",URI="https://example.invalid/'+p+'/sub"\r\n#EXT-X-STREAM-INF:BANDWIDTH=1000,PATHWAY-ID="'+p+'",SUBTITLES="s-'+p+'"\r\nhttps://example.invalid/'+p+'/video').join('\r\n')+'\r\n';
+let bridge;
+test('Coco route opaque',()=>{const r=run(uts,JSON.stringify({hlsUrl:src}));bridge=JSON.parse(r.result.body).hlsUrl;assert(!bridge.includes('token'));});
+for(const [n,s] of [['trailer',src.replace('1362880914','49671218')],['other film',src.replace('1307301491','123')],['duplicate',src+'&id=1362880914'],['subscription',src.replace('/hls/','/hls/subscription/')],['loop',bridge]])test(n,()=>assert.equal(Object.keys(run(uts,JSON.stringify({hlsUrl:s})).result).length,0));
+test('other UTS untouched',()=>assert.deepEqual(run(uts.replace('/movies/','/shelves/'),'{}').calls,0));
+test('master exact UTF8 bytes and all fields',()=>assert(Buffer.from(run(bridge,'',[null,{status:200},fixture]).result.response.body).equals(Buffer.from(fixture))));
+for(const [n,reply] of [['network',['SECRET',null,null]],['403',[null,{status:403},'SECRET']],['HTML',[null,{status:200},'<html>']],['JSON',[null,{status:200},'{}']],['redirect',[null,{status:302},'']],['timeout','timeout'],['relative',[null,{status:200},fixture.replace('https://example.invalid/ap/video','relative.m3u8')]]])test(n,()=>assert.equal(run(bridge,'',reply).result.response.status,502));
+test('expired handle',()=>assert.equal(run(bridge.replace(/\/[^/]+\.m3u8$/,'/missing.m3u8'),'').result.response.status,502));
+console.log(tests+' passed; mocked runtime, not device proof');
+
