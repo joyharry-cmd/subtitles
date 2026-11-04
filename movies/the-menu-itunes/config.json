@@ -1,0 +1,13 @@
+{
+  "id": "the-menu-itunes",
+  "name": "The Menu (2022) iTunes",
+  "legacy": true,
+  "enabled": true,
+  "resource": "P529868770_A1656921428",
+  "language": "fr-CA",
+  "hosts": [
+    "vod-ap-amt.tv.apple.com"
+  ],
+  "rule": "TheMenu.iTunes.zh-Hans = type=http-response,engine=webview,pattern=^https:\\/\\/vod-ap-amt\\.tv\\.apple\\.com\\/itunes-assets\\/HLSVideo123\\/v4\\/dc\\/43\\/c0\\/dc43c079-893a-42d5-1d20-5182f5c87a23\\/P529868770_A1656921428_fr-CA_subtitles-(0|[1-9]|[1-8][0-9]|9[0-4])\\.webvtt(?:\\?[^#]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/71c480be0d9972db87bb4232c943f7ac1ab3dd0c/movies/the-menu-itunes/the-menu-zh.js",
+  "note": "User confirmed successful device test before unified integration."
+}
