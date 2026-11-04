@@ -1,0 +1,8 @@
+#!name=Coco UTS API MITM Test
+#!desc=Minimal MITM test for uts-api.itunes.apple.com only.
+# Keep the stable Coco Spanish-to-Simplified-Chinese module enabled.
+# Disable other test modules. Check normal playback and full UTS URL visibility.
+# Disable this test immediately on failure. Do not collect or share account parameters or playback tokens.
+
+[MITM]
+hostname = %APPEND% uts-api.itunes.apple.com
