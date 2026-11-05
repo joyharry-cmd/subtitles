@@ -1,0 +1,7 @@
+#!name=Coco player-tabs 只读诊断
+#!desc=只观察 Coco player-tabs，不改变请求或响应
+[Script]
+Coco.PlayerTabs.Request = type=http-request,engine=webview,pattern=^https:\/\/uts-api\.itunes\.apple\.com\/uts\/v3\/contents\/umc\.cmc\.5y1554je00oslx5xtkxv9uk7s\/player-tabs(?:\?[^#\s]*)?$,requires-body=0,timeout=10,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/3bf7e5b5b20c240b87e06f65507a51ac3519b59f/experiments/coco-player-tabs-readonly.js
+Coco.PlayerTabs.Response = type=http-response,engine=webview,pattern=^https:\/\/uts-api\.itunes\.apple\.com\/uts\/v3\/contents\/umc\.cmc\.5y1554je00oslx5xtkxv9uk7s\/player-tabs(?:\?[^#\s]*)?$,requires-body=1,max-size=2097152,timeout=15,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/3bf7e5b5b20c240b87e06f65507a51ac3519b59f/experiments/coco-player-tabs-readonly.js
+[MITM]
+hostname = %APPEND% uts-api.itunes.apple.com
