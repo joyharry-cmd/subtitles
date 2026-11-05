@@ -1,0 +1,7 @@
+#!name=Coco 只读播放入口诊断 v2
+#!desc=仅诊断 UTS 结构及虚拟入口自检
+[Script]
+Coco.Trace.V2.UTS = type=http-response,engine=webview,pattern=^https:\/\/uts-api\.itunes\.apple\.com\/uts\/v[123]\/,requires-body=1,max-size=4194304,timeout=20,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/018c3b690a12a1a9cec994b4b013cd7460c30285/experiments/coco-playback-trace-v2.js
+Coco.Trace.V2.Health = type=http-request,engine=webview,pattern=^https:\/\/hls-amt\.itunes\.apple\.com\/__coco_trace_v2\/health(?:\?utm_source=chatgpt\.com)?$,requires-body=0,timeout=10,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/018c3b690a12a1a9cec994b4b013cd7460c30285/experiments/coco-playback-trace-v2.js
+[MITM]
+hostname = %APPEND% uts-api.itunes.apple.com, hls-amt.itunes.apple.com
