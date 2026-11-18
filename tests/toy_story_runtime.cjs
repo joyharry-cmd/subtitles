@@ -15,6 +15,6 @@ for(const [name,u] of Object.entries({overflow:url(94),negative:url(-1),leadingZ
 for(const [name,body,status] of [['html','<html>error</html>',200],['missing map','WEBVTT\n\n',200],['wrong map',good.replace('900000','0'),200],['null',null,200],['status404',good,404],['status206',good,206]])test(name,()=>assert.deepEqual(run(url(0),body,status),{}));
 test('corrupt embedded payload',()=>{const bad=code.replace('var segments = [','var segments = [null,');let out;vm.runInNewContext(bad,{$request:{url:url(0)},$response:{body:good,status:200},$done:x=>out=x});assert.deepEqual(out,{});});
 test('preserved five original rules',()=>{assert.equal(rules.length,6);for(let r of baseline.split(/\r?\n/).filter(x=>x.includes(' = type=')))assert(rules.includes(r));assert.equal(new Set(rules.map(r=>r.split(' = ')[0])).size,6);});
-test('unchanged MITM',()=>assert.equal(moduleText.split('[MITM]')[1],baseline.split('[MITM]')[1]));
+test('unchanged MITM',()=>assert.equal(moduleText.split('[MITM]')[1].replace(/\r\n/g,'\n'),baseline.split('[MITM]')[1].replace(/\r\n/g,'\n')));
 test('no runtime network APIs',()=>assert(!/\$httpClient|\$task|fetch\(|XMLHttpRequest/.test(code)));
 console.log(JSON.stringify({tests:count,passed:count,failed:0,segments:94,deviceTest:false}));
