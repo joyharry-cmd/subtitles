@@ -65,6 +65,9 @@ def compile_movie(folder,publish=False):
  c['pattern']=pattern.replace('/','\\/');return c
 def build(publish=False):
  rules=[];hosts=set()
+ module=ROOT/'shadowrocket/subtitles.module'
+ previous=module.read_text(encoding='utf-8') if module.exists() else ''
+ old_order={line.split(' = ',1)[0]:i for i,line in enumerate(previous.splitlines()) if ' = type=' in line}
  for folder in sorted((ROOT/'movies').iterdir()):
   if not (folder/'config.json').exists():continue
   c=compile_movie(folder,publish)
@@ -72,6 +75,8 @@ def build(publish=False):
   rules.append(c['rule'] if c.get('legacy') else c['id']+' = type=http-response,engine=webview,pattern='+c['pattern']+',requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/main/movies/'+folder.name+'/subtitle.js')
   hosts.update(c['hosts'])
  out=ROOT/'shadowrocket';out.mkdir(exist_ok=True)
- (out/'subtitles.module').write_text('#!name=个人影视中文字幕\n#!desc=更新此模块以获取新增电影；未经真机测试\n\n[Script]\n'+'\n'.join(rules)+'\n\n[MITM]\nhostname = %APPEND% '+', '.join(sorted(hosts))+'\n',encoding='utf-8')
+ rules.sort(key=lambda r:old_order.get(r.split(' = ',1)[0],len(old_order)))
+ header='\n'.join(line for line in previous.splitlines() if line.startswith('#!')) or '#!name=个人影视中文字幕\n#!desc=更新此模块以获取新增电影；未经真机测试'
+ (out/'subtitles.module').write_text(header+'\n\n[Script]\n'+'\n'.join(rules)+'\n\n[MITM]\nhostname = %APPEND% '+', '.join(sorted(hosts))+'\n',encoding='utf-8')
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--publish',action='store_true');a=p.parse_args();build(a.publish)

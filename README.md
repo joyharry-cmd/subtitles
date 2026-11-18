@@ -24,3 +24,8 @@ https://raw.githubusercontent.com/joyharry-cmd/subtitles/main/shadowrocket/subti
 统一模块现已包含 Interstellar 法语字幕替换规则，匹配 P1220541004_A960891136。字幕及处理脚本来自 [rexchen1803/apple-video-subtitles](https://github.com/rexchen1803/apple-video-subtitles)，直接引用原作者固定提交 9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb，不复制或重新托管完整字幕。规则参数和匹配表达式原样保留；三个 MITM 域名与 E.T. 相同。配置见 movies/interstellar-itunes/config.json。
 
 在 Shadowrocket 刷新统一模块并确认两条脚本下载成功，在线播放对应 iTunes 版本，选择法语。原 E.T. 链接与脚本保持不变。新增回归检查覆盖资源隔离、语言和主机排除及模块合并；未进行 iPhone/iPad 真机播放测试。
+
+
+## Toy Story 5（2026）iTunes
+
+es-419 V2 → 简体中文，共 94 段，仅匹配已捕获 AP CDN 的完整资源路径。原文件逐字节内嵌，无运行时网络请求，无二次时间轴变更；Apple TV 真机验证待完成。选择拉美西班牙语字幕使用。
