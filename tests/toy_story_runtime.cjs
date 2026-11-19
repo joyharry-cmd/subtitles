@@ -14,7 +14,64 @@ for(let n=0;n<94;n++)test('segment '+n,()=>{let out=run(url(n)+'?test=1');assert
 for(const [name,u] of Object.entries({overflow:url(94),negative:url(-1),leadingZero:url('01'),otherResource:url(0).replace('P1482498201','P1'),otherLanguage:url(0).replace('es-419','fr-CA'),otherVersion:url(0).replace('V2','V1'),empty:expected.base+'empty.webvtt',playlist:url(0).replace('.webvtt','.m3u8'),fa:url(0).replace('vod-ap','vod-fa'),ak:url(0).replace('vod-ap','vod-ak'),wrongPath:url(0).replace('HLSVideo211','HLSVideo1'),evil:url(0).replace('vod-ap-amt.tv.apple.com','evil.invalid'),fragment:url(0)+'#bad'}))test(name,()=>{assert.deepEqual(run(u),{});assert(!rx.test(u));});
 for(const [name,body,status] of [['html','<html>error</html>',200],['missing map','WEBVTT\n\n',200],['wrong map',good.replace('900000','0'),200],['null',null,200],['status404',good,404],['status206',good,206]])test(name,()=>assert.deepEqual(run(url(0),body,status),{}));
 test('corrupt embedded payload',()=>{const bad=code.replace('var segments = [','var segments = [null,');let out;vm.runInNewContext(bad,{$request:{url:url(0)},$response:{body:good,status:200},$done:x=>out=x});assert.deepEqual(out,{});});
-test('preserved five original rules',()=>{assert.equal(rules.length,6);for(let r of baseline.split(/\r?\n/).filter(x=>x.includes(' = type=')))assert(rules.includes(r));assert.equal(new Set(rules.map(r=>r.split(' = ')[0])).size,6);});
-test('unchanged MITM',()=>assert.equal(moduleText.split('[MITM]')[1].replace(/\r\n/g,'\n'),baseline.split('[MITM]')[1].replace(/\r\n/g,'\n')));
+// Keep the original film identities protected, while allowing intentional rule updates
+// and additional films through their canonical configurations.
+const active=fs.readdirSync(path.join(root,'movies'),{withFileTypes:true})
+  .filter(d=>d.isDirectory() && fs.existsSync(path.join(root,'movies',d.name,'config.json')))
+  .map(d=>[d.name,JSON.parse(fs.readFileSync(path.join(root,'movies',d.name,'config.json'),'utf8'))])
+  .filter(([,c])=>c.enabled!==false);
+function ruleName(rule){return rule.split(' = ',1)[0];}
+function verifyModule(rows,actualRules,actualMitm){
+  const expectedNames=rows.map(([,c])=>c.legacy?ruleName(c.rule):c.id);
+  assert(actualRules.every(r=>/^\S+ = type=http-response,/.test(r)));
+  assert.equal(new Set(expectedNames).size,expectedNames.length,'duplicate configured rule name');
+  assert.deepEqual(actualRules.map(ruleName).sort(),expectedNames.sort(),'missing, duplicate or unexpected rule');
+  const byName=new Map(actualRules.map(r=>[ruleName(r),r]));
+  for(const [folder,cfg] of rows){
+    if(cfg.legacy){
+      assert.equal(byName.get(ruleName(cfg.rule)),cfg.rule,folder+' legacy rule differs from config');
+    }else{
+      const rule=byName.get(cfg.id);
+      const match=rule.match(/,pattern=(.+),requires-body=1,max-size=2097152,timeout=30,script-path=(\S+)$/);
+      assert(match,folder+' generated rule fields');
+      assert.equal(match[2],'https://raw.githubusercontent.com/joyharry-cmd/subtitles/main/movies/'+folder+'/subtitle.js');
+      const includes=new RegExp(match[1]);
+      const names=fs.readFileSync(path.join(root,'movies',folder,cfg.playlist),'utf8').split(/\r?\n/)
+        .map(s=>s.trim()).filter(s=>s && !s.startsWith('#') && s!=='empty.webvtt');
+      assert(names.length,folder+' has no subtitle segments');
+      for(const host of cfg.hosts){
+        const base='https://'+host+cfg.path_prefix;
+        for(const name of names){
+          assert(includes.test(base+name) && includes.test(base+name+'?test=1'),folder+' misses configured segment');
+          assert(!includes.test('https://evil.invalid'+cfg.path_prefix+name));
+          assert(!includes.test(base+name.replace(cfg.resource,'OTHER')));
+        }
+        assert(!includes.test(base+'empty.webvtt'));
+      }
+    }
+  }
+  const hosts=Array.from(new Set(rows.flatMap(([,c])=>c.hosts))).sort();
+  assert(!hosts.includes('play-edge.itunes.apple.com'));
+  assert.equal(actualMitm,'hostname = %APPEND% '+hosts.join(', '));
+}
+const mitm=moduleText.split('[MITM]')[1].trim();
+test('protected original films remain enabled and matched to their config',()=>{
+  for(const old of baseline.split(/\r?\n/).filter(r=>r.includes(' = type='))){
+    assert(rules.some(r=>ruleName(r)===ruleName(old)),'original film missing: '+ruleName(old));
+  }
+  assert(rules.filter(r=>r.startsWith('ToyStory5.')).length===1);
+  assert.equal(moduleText.split('[Script]').length,2);
+  assert.equal(moduleText.split('[MITM]').length,2);
+  verifyModule(active,rules,mitm);
+});
+test('dynamic rule validation detects configuration drift and permits new films',()=>{
+  const synthetic='Synthetic.Test = type=http-response,engine=webview,pattern=^https://example.invalid/demo$,script-path=https://example.invalid/probe.js';
+  const extra=['synthetic',{legacy:true,rule:synthetic,hosts:active[0][1].hosts}];
+  verifyModule([...active,extra],[...rules,synthetic],mitm);
+  assert.throws(()=>verifyModule([...active,extra],rules,mitm),assert.AssertionError);
+  assert.throws(()=>verifyModule(active,[...rules.slice(1),rules[1]],mitm),assert.AssertionError);
+  assert.throws(()=>verifyModule(active,[rules[0].replace(/script-path=.*/,'script-path=https://example.invalid/wrong.js'),...rules.slice(1)],mitm),assert.AssertionError);
+  assert.throws(()=>verifyModule(active,rules,mitm+', play-edge.itunes.apple.com'),assert.AssertionError);
+});
 test('no runtime network APIs',()=>assert(!/\$httpClient|\$task|fetch\(|XMLHttpRequest/.test(code)));
 console.log(JSON.stringify({tests:count,passed:count,failed:0,segments:94,deviceTest:false}));
