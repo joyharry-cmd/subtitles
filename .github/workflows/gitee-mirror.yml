@@ -1,0 +1,98 @@
+name: Gitee Git mirror
+on:
+  push:
+    paths: ['.github/workflows/gitee-mirror.yml']
+  pull_request:
+    paths: ['.github/workflows/gitee-mirror.yml']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'probe (isolated and synthetic) or mirror-main'
+        required: true
+        type: choice
+        options: [probe, mirror-main]
+        default: probe
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    if: github.event_name != 'workflow_dispatch' || inputs.mode == 'probe'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify synthetic fast-forward and reject divergent history
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="$(mktemp -d)"
+          git init -q --bare "$root/mirror.git"
+          git init -q --initial-branch=main "$root/source"
+          cd "$root/source"
+          git config user.name "Subtitle Factory probe"
+          git config user.email "probe@example.invalid"
+          printf '%s\n' 'Synthetic Git mirror test — no subtitle content' > probe.txt
+          git add probe.txt
+          git commit -qm baseline
+          git push "$root/mirror.git" HEAD:refs/heads/main
+          printf '%s\n' 'Second synthetic revision' >> probe.txt
+          git commit -qam update
+          git push "$root/mirror.git" HEAD:refs/heads/main
+          test "$(git rev-parse HEAD)" = "$(git ls-remote "$root/mirror.git" refs/heads/main | cut -f1)"
+          test "$(git hash-object probe.txt)" = "$(git --git-dir="$root/mirror.git" rev-parse refs/heads/main:probe.txt)"
+          git switch -qc divergent HEAD^
+          printf '%s\n' 'Divergent synthetic revision' > probe.txt
+          git commit -qam divergent
+          if git push "$root/mirror.git" HEAD:refs/heads/main; then
+            echo 'Unexpected non-fast-forward push' >&2
+            exit 1
+          fi
+          echo 'Synthetic probe passed: fast-forward, content and divergence rejection. No Gitee write.'
+
+  mirror:
+    # Main sync remains manual and disabled until approved and configured.
+    if: github.repository == 'joyharry-cmd/subtitles' && github.event_name == 'workflow_dispatch' && inputs.mode == 'mirror-main' && github.ref == 'refs/heads/main' && vars.GITEE_SYNC_ENABLED == 'true'
+    environment: gitee-mirror
+    concurrency:
+      group: gitee-subtitles-main
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify existing mirror and push main without force
+        env:
+          GITEE_USER: ${{ vars.GITEE_GIT_USERNAME }}
+          GITEE_TOKEN: ${{ secrets.GITEE_GIT_TOKEN }}
+          GIT_TERMINAL_PROMPT: '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${GITEE_USER:?Configure the repository variable}"
+          : "${GITEE_TOKEN:?Configure the environment secret}"
+          target=https://gitee.com/haippy123/subtitles.git
+          askpass="$(mktemp)"
+          trap 'rm -f "$askpass"' EXIT
+          chmod 700 "$askpass"
+          cat > "$askpass" <<'SCRIPT'
+          #!/bin/sh
+          case "$1" in
+            *Username*) printf '%s\n' "$GITEE_USER" ;;
+            *Password*) printf '%s\n' "$GITEE_TOKEN" ;;
+            *) exit 1 ;;
+          esac
+          SCRIPT
+          export GIT_ASKPASS="$askpass"
+          before="$(git -c credential.helper= ls-remote --exit-code "$target" refs/heads/main | cut -f1)"
+          [[ "$before" =~ ^[0-9a-f]{40}$ ]]
+          git merge-base --is-ancestor "$before" HEAD
+          source="$(git rev-parse HEAD)"
+          current="$(git ls-remote --exit-code https://github.com/joyharry-cmd/subtitles.git refs/heads/main | cut -f1)"
+          test "$current" = "$source"
+          git -c credential.helper= -c push.followTags=false push "$target" HEAD:refs/heads/main
+          verified="$(git -c credential.helper= ls-remote --exit-code "$target" refs/heads/main | cut -f1)"
+          test "$verified" = "$source"
+          echo "Verified Gitee Git main: $verified (Raw is not a supported deployment source)."
