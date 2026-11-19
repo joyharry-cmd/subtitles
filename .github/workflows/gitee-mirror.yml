@@ -4,6 +4,10 @@ on:
     paths: ['.github/workflows/gitee-mirror.yml']
   pull_request:
     paths: ['.github/workflows/gitee-mirror.yml']
+  workflow_run:
+    workflows: ['Validate subtitles']
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       mode:
@@ -18,7 +22,7 @@ permissions:
 
 jobs:
   probe:
-    if: github.event_name != 'workflow_dispatch' || inputs.mode == 'probe'
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe')
     runs-on: ubuntu-latest
     steps:
       - name: Verify synthetic fast-forward and reject divergent history
@@ -50,8 +54,17 @@ jobs:
           echo 'Synthetic probe passed: fast-forward, content and divergence rejection. No Gitee write.'
 
   mirror:
-    # Main sync remains manual and disabled until approved and configured.
-    if: github.repository == 'joyharry-cmd/subtitles' && github.event_name == 'workflow_dispatch' && inputs.mode == 'mirror-main' && github.ref == 'refs/heads/main' && vars.GITEE_SYNC_ENABLED == 'true'
+    # Both modes require explicit opt-in; automatic mode only follows successful main CI.
+    if: >-
+      github.repository == 'joyharry-cmd/subtitles' &&
+      vars.GITEE_SYNC_ENABLED == 'true' &&
+      ((github.event_name == 'workflow_dispatch' && inputs.mode == 'mirror-main' &&
+        github.ref == 'refs/heads/main') ||
+       (github.event_name == 'workflow_run' && vars.GITEE_AUTO_SYNC_ENABLED == 'true' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main' &&
+        github.event.workflow_run.head_repository.full_name == github.repository))
     environment: gitee-mirror
     concurrency:
       group: gitee-subtitles-main
@@ -60,7 +73,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - name: Verify existing mirror and push main without force
@@ -91,7 +104,10 @@ jobs:
           git merge-base --is-ancestor "$before" HEAD
           source="$(git rev-parse HEAD)"
           current="$(git ls-remote --exit-code https://github.com/joyharry-cmd/subtitles.git refs/heads/main | cut -f1)"
-          test "$current" = "$source"
+          if [[ "$current" != "$source" ]]; then
+            echo "Stopped: validated/requested commit is no longer GitHub main. Use the newest run."
+            exit 1
+          fi
           git -c credential.helper= -c push.followTags=false push "$target" HEAD:refs/heads/main
           verified="$(git -c credential.helper= ls-remote --exit-code "$target" refs/heads/main | cut -f1)"
           test "$verified" = "$source"
