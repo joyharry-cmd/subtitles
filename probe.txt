@@ -1,1 +1,2 @@
 Synthetic Subtitle Factory Git sync probe. No movie, subtitle, or environment data.
+Second synthetic revision.
