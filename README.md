@@ -4,7 +4,7 @@
 
 https://raw.githubusercontent.com/joyharry-cmd/subtitles/main/shadowrocket/subtitles.module
 
-E.T. 通过统一模块管理，旧独立安装模块已移除。movies/iTunes-Movies-1982-E.T.-the-Extra-Terrestrial/et_itunes_zh.js 保留，供统一模块及自动化验证使用。
+E.T. 通过统一模块管理，旧独立安装模块已移除。movies/iTunes-Movie-1982-E.T.-the-Extra-Terrestrial/et_itunes_zh.js 保留，供统一模块及自动化验证使用。
 
 - movies/：每部电影的配置、播放列表和适配信息。E.T. 使用 legacy 配置引用原脚本，未复制或重新生成字幕。
 - tools/build.py：Python 3.11+ 离线 SRT/WebVTT/HLS 编译器，无第三方依赖。
@@ -21,7 +21,7 @@ E.T. 通过统一模块管理，旧独立安装模块已移除。movies/iTunes-M
 
 ## 星际穿越（2014）iTunes
 
-统一模块现已包含 Interstellar 法语字幕替换规则，匹配 P1220541004_A960891136。字幕及处理脚本来自 [rexchen1803/apple-video-subtitles](https://github.com/rexchen1803/apple-video-subtitles)，直接引用原作者固定提交 9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb，不复制或重新托管完整字幕。规则参数和匹配表达式原样保留；三个 MITM 域名与 E.T. 相同。配置见 movies/iTunes-Movies-2014-Interstellar/config.json。
+统一模块现已包含 Interstellar 法语字幕替换规则，匹配 P1220541004_A960891136。字幕及处理脚本来自 [rexchen1803/apple-video-subtitles](https://github.com/rexchen1803/apple-video-subtitles)，直接引用原作者固定提交 9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb，不复制或重新托管完整字幕。规则参数和匹配表达式原样保留；三个 MITM 域名与 E.T. 相同。配置见 movies/iTunes-Movie-2014-Interstellar/config.json。
 
 在 Shadowrocket 刷新统一模块并确认两条脚本下载成功，在线播放对应 iTunes 版本，选择法语。原 E.T. 链接与脚本保持不变。新增回归检查覆盖资源隔离、语言和主机排除及模块合并；未进行 iPhone/iPad 真机播放测试。
 
