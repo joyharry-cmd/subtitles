@@ -21,7 +21,7 @@ E.T. 通过统一模块管理，旧独立安装模块已移除。movies/iTunes-M
 
 ## 星际穿越（2014）iTunes
 
-统一模块现已包含 Interstellar 法语字幕替换规则，匹配 P1220541004_A960891136。字幕及处理脚本来自 [rexchen1803/apple-video-subtitles](https://github.com/rexchen1803/apple-video-subtitles)，直接引用原作者固定提交 9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb，不复制或重新托管完整字幕。规则参数和匹配表达式原样保留；三个 MITM 域名与 E.T. 相同。配置见 movies/iTunes-Movie-2014-Interstellar/config.json。
+统一模块现已包含 Interstellar 法语字幕替换规则，匹配 P1220541004_A960891136。字幕及处理脚本来自 [rexchen1803/apple-video-subtitles](https://github.com/rexchen1803/apple-video-subtitles)，经用户确认取得公开再分发授权后，将原作者固定提交 9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb 的脚本原样保存于本项目电影目录，并使用本仓库固定提交地址。原作者署名和字幕内容保持不变。规则参数和匹配表达式原样保留；三个 MITM 域名与 E.T. 相同。配置见 movies/iTunes-Movie-2014-Interstellar/config.json。
 
 在 Shadowrocket 刷新统一模块并确认两条脚本下载成功，在线播放对应 iTunes 版本，选择法语。原 E.T. 链接与脚本保持不变。新增回归检查覆盖资源隔离、语言和主机排除及模块合并；未进行 iPhone/iPad 真机播放测试。
 
