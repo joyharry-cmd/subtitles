@@ -1,5 +1,5 @@
 (function () {
-  var match = /^https:\/\/vod\-ap\-amt\.tv\.apple\.com\/itunes\-assets\/HLSVideo211\/v4\/63\/fd\/28\/63fd284b\-2b24\-7ed8\-305b\-d087cf36312a\/P1482498201_A6791110621_es-419_subtitles_V2-(0|[1-9]|[1-8][0-9]|9[0-3])\.webvtt(?:\?[^#]*)?$/.exec($request.url || "");
+  var match = /^https:\/\/vod-(?:ap|fa|ak)-amt\.tv\.apple\.com\/itunes\-assets\/HLSVideo211\/v4\/63\/fd\/28\/63fd284b\-2b24\-7ed8\-305b\-d087cf36312a\/P1482498201_A6791110621_es-419_subtitles_V2-(0|[1-9]|[1-8][0-9]|9[0-3])\.webvtt(?:\?[^#]*)?$/.exec($request.url || "");
   var response = $response;
   function hasExpectedMap(body) {
     return typeof body === "string" && /^\uFEFF?WEBVTT(?:[ \t][^\r\n]*)?\r?\n/.test(body) &&
