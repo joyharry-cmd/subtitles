@@ -29,3 +29,8 @@ E.T. 通过统一模块管理，旧独立安装模块已移除。movies/iTunes-M
 ## Toy Story 5（2026）iTunes
 
 es-419 V2 → 简体中文，共 94 段，仅匹配已捕获 AP CDN 的完整资源路径。原文件逐字节内嵌，无运行时网络请求，无二次时间轴变更；Apple TV 真机验证待完成。选择拉美西班牙语字幕使用。
+
+
+### Subtitle CDN compatibility
+
+All seven movie adapters match `vod-(?:ap|fa|ak)-amt.tv.apple.com` in both module rules and script URL validation. Asset, language, version and segment constraints remain unchanged. The unnamed adapter normalizes only these three exact hosts for its embedded lookup. `python -m unittest discover -s tests` includes all-segment CDN equivalence checks. FA/AK playback still requires device verification.

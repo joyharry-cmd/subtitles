@@ -10,11 +10,11 @@
     "vod-fa-amt.tv.apple.com",
     "vod-ak-amt.tv.apple.com"
   ],
-  "rule": "iTunes.Movie.Interstellar.zh-Hans.French.response = type=http-response,engine=webview,pattern=^https:\\/\\/vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com\\/itunes-assets\\/(?:[^\\/]+\\/)+P1220541004_A960891136_fr-FR_subtitles_V2-\\d+\\.webvtt(?:\\?.*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/252ce3e26543ef2766ba592f89367442fc8464d1/movies/iTunes-Movie-2014-Interstellar/interstellar-zh.js",
+  "rule": "iTunes.Movie.Interstellar.zh-Hans.French.response = type=http-response,engine=webview,pattern=^https:\\/\\/vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com\\/itunes-assets\\/(?:[^\\/]+\\/)+P1220541004_A960891136_fr-FR_subtitles_V2-\\d+\\.webvtt(?:\\?.*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/d28039bed90439159ada76ab93a217314832cdc4/movies/iTunes-Movie-2014-Interstellar/interstellar_zh.js",
   "publish_authorized": true,
   "rights_evidence": "User confirmed authorization for public redistribution of Interstellar subtitles on 2026-11-20.",
   "source": "https://github.com/rexchen1803/apple-video-subtitles",
   "upstream_script": "https://raw.githubusercontent.com/rexchen1803/apple-video-subtitles/9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb/payloads/shadowrocket/movies/2014-interstellar/serve_interstellar_fr_as_zh_hans.js",
   "upstream_commit": "9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb",
-  "script_sha256": "586b6a9463952ea8e944a656cabd5f178b829103ad75ea2deb2a6b6652a30c7e"
+  "script_sha256": "830f9316d9e4f72a3e250faf173907a1f26a2eb3a839df3d723d38c0fb06dadd"
 }

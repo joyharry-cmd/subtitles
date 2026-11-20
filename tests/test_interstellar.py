@@ -13,7 +13,7 @@ class Interstellar(unittest.TestCase):
   self.assertFalse(rx(b).fullmatch(inter.replace('fr-FR','en')))
   self.assertFalse(rx(b).fullmatch(inter.replace('vod-ap-amt.tv.apple.com','evil.invalid')))
   self.assertNotEqual(a['rule'].split(' = ')[0],b['rule'].split(' = ')[0])
-  self.assertIn('/252ce3e26543ef2766ba592f89367442fc8464d1/',b['rule'])
+  self.assertIn('/d28039bed90439159ada76ab93a217314832cdc4/',b['rule'])
   self.assertEqual(b['upstream_commit'],'9e7aa43bd9e1a4032d4bc780c353f8f4a6ef31bb')
   import hashlib
   self.assertEqual(hashlib.sha256((ROOT/'movies/iTunes-Movie-2014-Interstellar/interstellar_zh.js').read_bytes()).hexdigest(),b['script_sha256'])
