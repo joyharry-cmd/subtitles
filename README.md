@@ -4,7 +4,7 @@
 
 https://raw.githubusercontent.com/joyharry-cmd/subtitles/main/shadowrocket/subtitles.module
 
-现有 et_itunes_zh.module 和 et_itunes_zh.js 入口保持不变。请避免同时启用旧 E.T. 模块及总模块中的重复规则。
+E.T. 通过统一模块管理，旧独立安装模块已移除。et_itunes_zh.js 保留，供统一模块及自动化验证使用。
 
 - movies/：每部电影的配置、播放列表和适配信息。E.T. 使用 legacy 配置引用原脚本，未复制或重新生成字幕。
 - tools/build.py：Python 3.11+ 离线 SRT/WebVTT/HLS 编译器，无第三方依赖。
