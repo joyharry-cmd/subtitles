@@ -76,7 +76,7 @@ def build(publish=False):
   hosts.update(c['hosts'])
  out=ROOT/'shadowrocket';out.mkdir(exist_ok=True)
  rules.sort(key=lambda r:old_order.get(r.split(' = ',1)[0],len(old_order)))
- header='\n'.join(line for line in previous.splitlines() if line.startswith('#!')) or '#!name=个人影视中文字幕\n#!desc=更新此模块以获取新增电影；未经真机测试'
+ header='\n'.join(line for line in previous.splitlines() if line.startswith('#!')) or '#!name=iTunes中文字幕\n#!desc=更新此模块以获取新增电影；未经真机测试'
  (out/'subtitles.module').write_text(header+'\n\n[Script]\n'+'\n'.join(rules)+'\n\n[MITM]\nhostname = %APPEND% '+', '.join(sorted(hosts))+'\n',encoding='utf-8')
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--publish',action='store_true');a=p.parse_args();build(a.publish)
