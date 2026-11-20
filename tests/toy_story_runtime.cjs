@@ -1,7 +1,7 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert'),crypto=require('crypto'),path=require('path');
 const root=path.resolve(__dirname,'..');
-const expected=JSON.parse(fs.readFileSync(path.join(root,'movies/toy-story-5-itunes/segments.sha256.json'),'utf8'));
-const code=fs.readFileSync(path.join(root,'movies/toy-story-5-itunes/toy-story-5-zh.js'),'utf8');
+const expected=JSON.parse(fs.readFileSync(path.join(root,'movies/iTunes-Movies-2026-Toy-Story-5/segments.sha256.json'),'utf8'));
+const code=fs.readFileSync(path.join(root,'movies/iTunes-Movies-2026-Toy-Story-5/toy-story-5-zh.js'),'utf8');
 const moduleText=fs.readFileSync(path.join(root,'shadowrocket/subtitles.module'),'utf8');
 const baseline=fs.readFileSync(path.join(__dirname,'fixtures/pre-toy.module'),'utf8');
 let count=0;function test(name,fn){fn();count++;}

@@ -3,8 +3,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 class Interstellar(unittest.TestCase):
  def test_rules(self):
-  a=json.loads((ROOT/'movies/et-itunes/config.json').read_text())
-  b=json.loads((ROOT/'movies/interstellar-itunes/config.json').read_text())
+  a=json.loads((ROOT/'movies/iTunes-Movies-1982-E.T.-the-Extra-Terrestrial/config.json').read_text())
+  b=json.loads((ROOT/'movies/iTunes-Movies-2014-Interstellar/config.json').read_text())
   def rx(c):return re.compile(c['rule'].split('pattern=',1)[1].split(',requires-body=',1)[0])
   et='https://vod-ap-amt.tv.apple.com/itunes-assets/HLSVideo221/v4/55/41/9e/55419e70-b301-7666-bdce-f92a910b3ede/P1202756692_A544128124_fr-FR_subtitles_V2-32.webvtt'
   inter='https://vod-ap-amt.tv.apple.com/itunes-assets/HLSVideo1/v4/test/P1220541004_A960891136_fr-FR_subtitles_V2-3.webvtt?test=1'
