@@ -1,0 +1,16 @@
+{
+  "id": "itunes-1316846482-551696927",
+  "name": "A.I. Artificial Intelligence (2001) iTunes",
+  "legacy": true,
+  "enabled": true,
+  "resource": "P1316846482_A551696927",
+  "language": "fr-FR",
+  "hosts": [
+    "vod-ap-amt.tv.apple.com",
+    "vod-fa-amt.tv.apple.com",
+    "vod-ak-amt.tv.apple.com"
+  ],
+  "rule": "iTunes.Movie.AIArtificialIntelligence.zh-Hans.French.response = type=http-response,engine=webview,pattern=^https://vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com/itunes-assets/HLSVideo221/v4/75/16/5a/75165aac-e1d8-1c62-472b-db809049ae67/P1316846482_A551696927_fr-FR_subtitles_V2-(?:0|1(?:|[01](?:|[0-9])|2(?:|0)|[3-9])|[2-9](?:|[0-9]))\\.webvtt(?:\\?[^#\\r\\n]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/196ed37e4b9dbebddedfeab6b6a4a03e77e21acc/movies/iTunes-Movie-2001-A.I.-Artificial-Intelligence/a.i.-artificial-intelligence_zh.js",
+  "publish_authorized": true,
+  "rights_evidence": "发布者已在 Subtitle Factory 确认本次字幕可公开再分发（发布记录 b8adb004d0284de98993c5d58f873919）。"
+}
