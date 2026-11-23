@@ -10,7 +10,7 @@
     "vod-ap-amt.tv.apple.com",
     "vod-fa-amt.tv.apple.com"
   ],
-  "rule": "iTunes.Movie.FindingDory.zh-Hans.Spanish-LatinAmerica.response = type=http-response,engine=webview,pattern=^https://vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com/itunes-assets/HLSVideo221/v4/b4/40/56/b4405680-bbef-2fe4-01e5-e439d0500203/P1389739052_A1122228373_es-419_subtitles_V2-(?:[09]|[1-7](?:|[0-9])|8(?:|[0-7]))\\.webvtt(?:\\?[^#\\r\\n]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/7cf6f8c64e1d68b5dd748e3d1a680966dd383ee9/movies/iTunes-Movie-2016-Finding-Dory/finding-dory_zh.js",
+  "rule": "iTunes.Movie.FindingDory.zh-Hans.Spanish-LatinAmerica.response = type=http-response,engine=webview,pattern=^https://vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com/itunes-assets/HLSVideo221/v4/b4/40/56/b4405680-bbef-2fe4-01e5-e439d0500203/P1389739052_A1122228373_es-419_subtitles_V2-(?:[09]|[1-7](?:|[0-9])|8(?:|[0-7]))\\.webvtt(?:\\?[^#\\r\\n]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/7d9b7ad75f8b3cbee2beae0598dafae437cee3fc/movies/iTunes-Movie-2016-Finding-Dory/finding-dory_zh.js",
   "publish_authorized": true,
-  "rights_evidence": "许可由发布者自行核实（发布记录 995f517cfb4041f58f98c6ac495d2c08）。"
+  "rights_evidence": "许可由发布者自行核实（发布记录 dfc6b3488e694a4a960af9ed3b8135f3）。"
 }
