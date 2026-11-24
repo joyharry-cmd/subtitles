@@ -10,7 +10,7 @@
     "vod-ap-amt.tv.apple.com",
     "vod-fa-amt.tv.apple.com"
   ],
-  "rule": "iTunes.Movie.GhostInTheShell.zh-Hans.English.response = type=http-response,engine=webview,pattern=^https://vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com/itunes-assets/HLSVideo211/v4/32/c2/cc/32c2cc3a-9da0-98b5-cefa-ac6fca4cc8ea/P1518401621_A1219320615_en_subtitles_V2-(?:[0789]|[1-5](?:|[0-9])|6(?:|[0-5]))\\.webvtt(?:\\?[^#\\r\\n]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/4cdcabbf1d7265116d6636f11ac962ffeb0f5975/movies/iTunes-Movie-1996-Ghost-in-the-Shell/ghost-in-the-shell_zh.js",
+  "rule": "iTunes.Movie.GhostInTheShell.zh-Hans.English.response = type=http-response,engine=webview,pattern=^https://vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com/itunes-assets/HLSVideo211/v4/32/c2/cc/32c2cc3a-9da0-98b5-cefa-ac6fca4cc8ea/P1518401621_A1219320615_en_subtitles_V2-(?:[0789]|[1-5](?:|[0-9])|6(?:|[0-5]))\\.webvtt(?:\\?[^#\\r\\n]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/96464e5ba28e7f09e0c50e8cdbe59411d4d182ab/movies/iTunes-Movie-1996-Ghost-in-the-Shell/ghost-in-the-shell_zh.js",
   "publish_authorized": true,
-  "rights_evidence": "许可由发布者自行核实（发布记录 57206ca83f7c42839c389646915c88bb）。"
+  "rights_evidence": "许可由发布者自行核实（发布记录 c56e6fe5b2ad4f3e95a9c9a4b6af19e8）。"
 }
