@@ -1,0 +1,16 @@
+{
+  "id": "iTunes-Movie-2024-Gladiator-II",
+  "name": "Gladiator II (2024) iTunes",
+  "legacy": true,
+  "enabled": true,
+  "resource": "P1193097295_A1775657987",
+  "language": "fr-CA",
+  "hosts": [
+    "vod-ak-amt.tv.apple.com",
+    "vod-ap-amt.tv.apple.com",
+    "vod-fa-amt.tv.apple.com"
+  ],
+  "rule": "iTunes.Movie.GladiatorII.zh-Hans.French-Canada.response = type=http-response,engine=webview,pattern=^https://vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com/itunes-assets/HLSVideo211/v4/ab/ca/db/abcadb9a-8641-c6f7-8266-bd9b23fe076b/P1193097295_A1775657987_fr-CA_subtitles_V2-(?:0|1(?:|[0-2](?:|[0-9])|3(?:|[0-5])|[4-9])|[2-9](?:|[0-9]))\\.webvtt(?:\\?[^#\\r\\n]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/dd3f03821bc9dc3ff3b3b8635f88134d2df73069/movies/iTunes-Movie-2024-Gladiator-II/gladiator-ii_zh.js",
+  "publish_authorized": true,
+  "rights_evidence": "许可由发布者自行核实（发布记录 445ea932af384503a8fea607cef56d98）。"
+}
