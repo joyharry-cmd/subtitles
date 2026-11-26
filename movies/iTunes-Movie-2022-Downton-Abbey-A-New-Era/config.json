@@ -1,0 +1,16 @@
+{
+  "id": "iTunes-Movie-2022-Downton-Abbey-A-New-Era",
+  "name": "Downton Abbey: A New Era (2022) iTunes",
+  "legacy": true,
+  "enabled": true,
+  "resource": "P513477822_A1626271470",
+  "language": "fr-CA",
+  "hosts": [
+    "vod-ak-amt.tv.apple.com",
+    "vod-ap-amt.tv.apple.com",
+    "vod-fa-amt.tv.apple.com"
+  ],
+  "rule": "iTunes.Movie.DowntonAbbeyANewEra.zh-Hans.French-Canada.response = type=http-response,engine=webview,pattern=^https://vod-(?:ap|fa|ak)-amt\\.tv\\.apple\\.com/itunes-assets/HLSVideo122/v4/7f/bc/8e/7fbc8e7a-4d10-f94e-9c97-3b9cd8762989/P513477822_A1626271470_fr-CA_subtitles-(?:0|1(?:|0(?:|[0-9])|1(?:|[01])|[2-9])|[2-9](?:|[0-9]))\\.webvtt(?:\\?[^#\\r\\n]*)?$,requires-body=1,max-size=2097152,timeout=30,script-path=https://raw.githubusercontent.com/joyharry-cmd/subtitles/e01d3592f5839d9c79fd6d6e4b80ad4834fdc353/movies/iTunes-Movie-2022-Downton-Abbey-A-New-Era/downton-abbey-a-new-era_zh.js",
+  "publish_authorized": true,
+  "rights_evidence": "许可由发布者自行核实（发布记录 9b06060d2cce4735b26549273a8fec8b）。"
+}
